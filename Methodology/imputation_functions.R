@@ -43,8 +43,8 @@ impute_matrix <- function(X0,distance_method = "euclidean", X_initial = NULL, ma
   # - Loop
   
   while(kk <= max_iter){
-    
-    D <- as.matrix(dist(X, distance_method))
+    Xstandard <- scale(X)
+    D <- as.matrix(dist(Xstandard, distance_method))
     W <- D/matrix(rep(apply(D,1,sum),N),nrow = N, byrow = FALSE)
     X1 <- (W%*%X)*missing_matrix
     X <- ifelse(missing_matrix == 1,X1,X0)
