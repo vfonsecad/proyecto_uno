@@ -15,7 +15,7 @@
 #   5. Repeat steps 1 to 4 until convergence
 
 
-impute_matrix <- function(X0,distance_method = "euclidean", X_initial = NULL, max_iter = 30){
+impute_matrix <- function(X0, distance_method = "euclidean", X_initial = NULL, max_iter = 30){
   
   
   # - Constants
@@ -45,6 +45,8 @@ impute_matrix <- function(X0,distance_method = "euclidean", X_initial = NULL, ma
   while(kk <= max_iter){
     Xstandard <- scale(X)
     D <- as.matrix(dist(Xstandard, distance_method))
+    D <- exp(-D^2)
+    diag(D) <- 0
     W <- D/matrix(rep(apply(D,1,sum),N),nrow = N, byrow = FALSE)
     X1 <- (W%*%X)*missing_matrix
     X <- ifelse(missing_matrix == 1,X1,X0)
