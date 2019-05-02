@@ -7,13 +7,13 @@
 # This experiment presents preliminary results on the convergence of imputation
 
 rm(list=ls())
-setwd("C:/Users/u0106869/Google Drive/Independent work/JULVAL")
-
+# setwd("C:/Users/u0106869/Google Drive/Independent work/JULVAL")
+getwd()
 # --- Libraries and sources
 
-source("./proyecto_uno/Methodology/imputation_functions.R")
+source("./Methodology/imputation_functions.R")
 
-library(MASS)
+# library(MASS)
 
 
 # --- Apply Function
