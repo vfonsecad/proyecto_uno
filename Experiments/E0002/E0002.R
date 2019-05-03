@@ -23,7 +23,7 @@ source("./Methodology/imputation_functions.R")
 N <- 150
 K <- 4
 Xcomplete <- as.matrix(iris[1:4])
-missing <- matrix(rbinom(N*K,1,0.1),nrow = N, ncol = K)
+missing <- matrix(rbinom(N*K,1,0.2),nrow = N, ncol = K)
 Xmissing <- Xcomplete * (ifelse(missing==1,NA,1))
 Xmeans <- matrix(rep(colMeans(Xcomplete), nrow(Xcomplete)), nrow(Xcomplete), byrow = TRUE)
 
@@ -58,4 +58,4 @@ mice(Xmissing) -> Xtmp
 complete(Xtmp) -> Ximputed
 
 1 - sum((Xcomplete - Ximputed)^2)/sum((Xcomplete - ifelse(is.na(Xmissing),Xmeans,Xmissing))^2)
-
+rsquared[40]
