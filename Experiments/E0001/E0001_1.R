@@ -11,9 +11,9 @@ rm(list=ls())
 getwd()
 # --- Libraries and sources
 
-source("./Methodology/imputation_functions.R")
+source("Methodology/imputation_functions.R")
 
-# library(MASS)
+library(MASS)
 
 
 # --- Apply Function
@@ -30,7 +30,7 @@ Xmissing <- Xcomplete * (ifelse(missing==1,NA,1))
 
 # -- Loop
 
-iter_vector <- seq(1,50,1)
+iter_vector <- seq(2,50,1)
 rmse <- matrix(0,nrow = length(iter_vector), ncol=1)
 rsquared <- matrix(0,nrow = length(iter_vector), ncol=1)
 
@@ -40,7 +40,8 @@ for(iit in iter_vector){
   
   # -- Imputed matrix
   
-  Ximputed <- impute_matrix(X0 = Xmissing, max_iter = iit)
+  result <- run_imputation(X0 = Xmissing, max_iter = iit)
+  Ximputed <- get_imputed_matrix(result)
   rmse[kk,1] <- sqrt(mean((Xcomplete - Ximputed)^2))
   rsquared[kk,1] <- 1 - sum((Xcomplete - Ximputed)^2)/sum((Xcomplete - ifelse(is.na(Xmissing),0,Xmissing))^2)
   kk <- kk + 1
