@@ -18,8 +18,9 @@ source("Methodology/imputation_functions.R")
 # Data
 
 library(readxl)
-read_excel("Experiments/E0003/Boston_Housing.xls") -> boston_housing_dataset
+read_excel("Experiments/E0002/Boston_Housing.xls") -> boston_housing_dataset
 # --- Apply Function
+
 
 # -- Matrix
 
@@ -62,4 +63,9 @@ as.matrix(complete(Xtmp)) -> Ximputed_mice
 
 sqrt(mean((Xcomplete - Ximputed_mice)^2))
 1 - sum((Xcomplete - Ximputed_mice)^2)/sum((Xcomplete - ifelse(is.na(Xmissing),Xmeans,Xmissing))^2)
+
+## Data resilience
+
+resiliance(boston_housing_dataset) -> boston_resiliance
+plot(rsq~mr, boston_resiliance, ylim = c(0,1))
 
