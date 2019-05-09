@@ -11,7 +11,7 @@ rm(list=ls())
 getwd()
 # --- Libraries and sources
 
-source("./Methodology/imputation_functions.R")
+source("Methodology/imputation_functions.R")
 
 # library(MASS)
 
@@ -23,39 +23,44 @@ source("./Methodology/imputation_functions.R")
 N <- 150
 K <- 4
 Xcomplete <- as.matrix(iris[1:4])
-missing <- matrix(rbinom(N*K,1,0.2),nrow = N, ncol = K)
+missing <- matrix(rbinom(N*K,1,0.15),nrow = N, ncol = K)
 Xmissing <- Xcomplete * (ifelse(missing==1,NA,1))
 Xmeans <- matrix(rep(colMeans(Xcomplete), nrow(Xcomplete)), nrow(Xcomplete), byrow = TRUE)
+Xinit <- ifelse(is.na(Xmissing),Xmeans,Xmissing)
 
 
-# -- Loop
+# --- Run the algoithm 
 
-iter_vector <- seq(1,50,1)
-rmse <- matrix(0,nrow = length(iter_vector), ncol=1)
-rsquared <- matrix(0,nrow = length(iter_vector), ncol=1)
+algorithm_output <- run_imputation(X0 = Xmissing, X_initial = Xinit)
 
-kk <- 1
-
-for(iit in iter_vector){
+# --- Some evaluations and playing
   
-  # -- Imputed matrix
+library("tibble")
+library("magrittr")
+library("FactoMineR")
+library("purrr")
+library("dplyr")
+library("gganimate")
+library("ggthemes")
+
+algorithm_output %$%
+  tibble(
+    step_matrices = steps,
+    pca = map(step_matrices, PCA, graph = FALSE),
+    ind = map(pca, extract2, "ind"),
+    coord = map(ind, extract2, "coord"),
+    factor_plane = map(coord, as_tibble),
+    by_step = Map(mutate, factor_plane, step = as.list(seq_along(factor_plane))),
+    to_plot = map(by_step, mutate, missing_ind = as.character(apply(missing, 1, max)))
+  ) %$%
+  bind_rows(to_plot) -> steps_to_plot
   
-  Ximputed <- impute_matrix(X0 = Xmissing, max_iter = iit, X_initial = ifelse(is.na(Xmissing),Xmeans,Xmissing))
-  rmse[kk,1] <- sqrt(mean((Xcomplete - Ximputed)^2))
-  rsquared[kk,1] <- 1 - sum((Xcomplete - Ximputed)^2)/sum((Xcomplete - ifelse(is.na(Xmissing),Xmeans,Xmissing))^2)
-  kk <- kk + 1
-}
+steps_to_plot %>% 
+  ggplot +
+  aes(x = Dim.1, y = Dim.2, colour = missing_ind) +
+  geom_point() + 
+  theme_solarized_2(light = FALSE) +
+  transition_time(step) +
+  labs(title = "Step: {frame_time}")
+  
 
-
-plot(iter_vector, rmse[,1], type = "l")
-plot(iter_vector, rsquared[,1], type = "l")
-
-
-## Multiple imputation chained equations
-
-library(mice)
-mice(Xmissing) -> Xtmp
-complete(Xtmp) -> Ximputed
-
-1 - sum((Xcomplete - Ximputed)^2)/sum((Xcomplete - ifelse(is.na(Xmissing),Xmeans,Xmissing))^2)
-rsquared[40]
