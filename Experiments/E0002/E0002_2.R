@@ -66,6 +66,6 @@ sqrt(mean((Xcomplete - Ximputed_mice)^2))
 
 ## Data resilience
 
-resiliance(boston_housing_dataset) -> boston_resiliance
+resilience(boston_housing_dataset) -> boston_resiliance
 plot(rsq~mr, boston_resiliance, ylim = c(0,1))
 
