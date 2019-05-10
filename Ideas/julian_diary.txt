@@ -1,0 +1,12 @@
+## data resilience
+
+capability of the data for grow from its own ashes
+
+## damage
+
+is the damage suffered by the data in a process
+
+it deppends on the shape of the data, sqared datasets are more likely to die
+
+## nadraya watson and distance prediction
+
