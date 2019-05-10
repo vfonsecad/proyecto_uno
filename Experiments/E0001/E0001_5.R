@@ -36,10 +36,10 @@ for(sit in simul_iter){
   N <- 100
   K <- 4
   ncp <- 2
-  #TT <- mvrnorm(n = N, rep(0, ncp), diag(ncp))
-  TT <- mvrnorm(n = N, rep(0, K), diag(K))
+  TT <- mvrnorm(n = N, rep(0, ncp), diag(ncp))
+  #TT <- mvrnorm(n = N, rep(0, K), diag(K))
   PP <- mvrnorm(n = ncp, rep(0, K), diag(K))
-  A <- TT#%*%PP + mvrnorm(n = N, rep(0, K), diag(K)*0.5)
+  A <- TT%*%PP + mvrnorm(n = N, rep(0, K), diag(K)*0.5)
   Sigma <- (t(scale(A)) %*% scale(A))/N
   Xcomplete <- mvrnorm(n = N, rep(0, K), Sigma)
   missing <- matrix(rbinom(N*K,1,0.1),nrow = N, ncol = K)
