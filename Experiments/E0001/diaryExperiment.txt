@@ -1,0 +1,6 @@
+EXPERIMENT_ID;E0001
+2019-05-07;I have been testing the imputability of a data set with simulations. Initially with the experiments that Julian ran we had a better performance of our method than with MICE, the R2 was always higher with out method (let's name our method). 
+1) Now I have been testing in E0001_3 the ability of a test set to be imputed and the simulation I made was based on a PCA philosophy. This made the data set to have a very high covariability and it looks to fail in the very extreme cases, those are the special data sets I saved from the simulations. In this high covariability cases, MICE showed to perform better according to the R2 measure.
+2) Then I tried a dataset with very low covariability, correlations among variables were less than 0.01 in absolute value, and both methods, ours and MICE failed to impute missing values.  
+3) Finally I tried to lower the covariability to make it a bit middle way, 0.4, 0.5 overall, and in the majority of the cases, out method performed better.
+Can I run a loop to test these 3 scenarios and record the R2 to see the behavior in several simulations? 
