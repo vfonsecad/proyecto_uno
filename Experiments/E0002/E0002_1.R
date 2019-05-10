@@ -64,3 +64,12 @@ steps_to_plot %>%
   labs(title = "Step: {frame_time}")
   
 
+resilience(iris[1:4], repetitions = 25) -> ddff_tmp
+
+library("ggplot2")
+ggplot(ddff_tmp) + aes(x = mr, y = rsq) +
+  geom_point() +
+  geom_smooth()
+
+
+sort(ddff_tmp$rsq)
