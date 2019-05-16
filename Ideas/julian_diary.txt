@@ -10,3 +10,69 @@ it deppends on the shape of the data, sqared datasets are more likely to die
 
 ## nadraya watson and distance prediction
 
+The Nadaraya Watson Estimator is one of the most powerful regression tools. It aims to compute the conditional mean of a conjoint density kernel estimation. Generally, it can be named Nonparemetric Kernel Regression or Parzen Window Method and presented by this formula:
+
+$$ \widehat{h}(x) = \sum\limits_{i = 1}^n w_iy_i$$
+
+when $w_i = \frac{K\left(\frac{x_i - x}{b}\right)}{\sum\limits_{j = 1}^n K\left(\frac{x_j - x}{b}\right)}
+
+In this way it has to hyperparameters which can have an impact on the estimator. The First hyperparameter to choose is the kernel $K$. For this is necessary to consider the type of variable, the range of the data, and the shape of the estimated density. When selected properly the kernel will produce a good approximation to the theoretical density of the data. When the gaussian kernel is used the estimation approach can be reduced to a distance process. 
+
+The second hyperparameter to choose is the bandwidth $b$. The bandwidth will set the relevance of each point of data in the estimation process. So that, when it is near to zero the regresión will be likely to have an overfitting problem, because the regression function will be close to each point on the sample. When the bandwidth is good, the regression function will consider the general trend instead each point location. A too large band will cause the regression function will be strength horizontal curve.
+
+In Practical terms the regression function will be the weighted average of the data. In the gaussian kernel case, the weights can be computed as the exponential of the negative of the distance to each data point. The multivariate implementation of this estimation process for a complete table is not complicated. That is:
+
+$$ \widehat{h}(x) = \sum\limits_{i = 1}^n w_iy_i$$
+
+when $w_i = \frac{exp\left( - \frac{\|x_i - x\|}{b}\right)}{\sum\limits_{j = 1}^n exp\left( - \frac{\|x_j - x\|}{b}\right)}$
+
+
+## EM algorithm
+
+The EM algorithm is an iterative likelihood maximization technique, fraamed in the classical parametric paradigm. Mostly, It is used in two different ways, to estimate the model parameters in presence of missing data, being an useful imputation technique, and managing models with hidden parameters. These algorithm is shaped by two steps. The E step: prediction of hidden parameters or missing data as the expectation of the conditional distribution, and the M step: estimation of the (explicit) parameters of the model via likelihood maximization. 
+
+On the expectation step, having some values for the parameters in the model the missing data values (or the hidden parameter values) are predicted from the model as the expectation of their conditional distribution given the present data and the parameters. On the maximization step, having  some values for the missing data (or the hidden parameters), the (explicit) parameters are estimated via maximum likelihood. In this sense, it's required use a model with an easy parameter estimation process, because it will be repeated few times. Both steps are repeated until convergence. The mathematical explanation are available in [citation].
+
+## Data damage 
+
+In the imputation data context it's necessary to talk about the nature and amount of missing information. In this analysis some concepts like missing at random and missing completely at random show up, concepts that care about of the distribution of the damage from the data. But in the consulted papers were not deeper analysis of this damage. There are no standardized measures for this data damage or further descriptions  easy/difficult imputation. It means that its not able damage different data sets in the same way, or damage them in the same amount, for test imputation data algorithms.
+
+Traditional approach for this problem is measure the data damage by the percent of missing values on a table. But this approach ignores the shape of the table, which will be relevant aspect show it in Figure 1.
+
+The shape of the table is indeed relevant. Long vertical table will produce more complete individuals than squared shaped table or fat horizontal table. This is important because every prediction algorithm is based (and improved) on complete cases. Intuitively, if every individual is missing out a few values, the task of imputation is harder.
+
+## Data resilience
+
+Data resilience is the property of data sets. Let's say the A data set is more resilient than other data set B, if after make them the same amount of damage in the same way, A can be recovered better than B using the same method of data imputation.
+
+This definition is a sketch, because recovering different data sets, different imputation methods can lead to diferent results because their inner performance and architecture (linear prediction, distance based imputation, bayesian approach). So that, start the research about this concept is required in order to evaluate the accuracy or misconception of this definition.
+
+@book{EM,
+abstract = {The only single-source--now completely updated and revised--to offer a unified treatment of the theory, methodology, and applications of the EM algorithm Complete with updates that capture developments from the past decade, The EM Algorithm and Extensions, Second Edition successfully provides a basic understanding of the EM algorithm by describing its inception, implementation, and applicability in numerous statistical contexts. In conjunction with the fundamentals of the topic, the authors discuss convergence issues and computation of standard errors, and, in addition, unveil many parallels and connections between the EM algorithm and Markov chain Monte Carlo algorithms. Thorough discussions on the complexities and drawbacks that arise from the basic EM algorithm, such as slow convergence and lack of an in-built procedure to compute the covariance matrix of parameter estimates, are also presented. While the general philosophy of the First Edition has been maintained, this timely new edition has been updated, revised, and expanded to include: The EM Algorithm and Extensions, Second Edition serves as an excellent text for graduate-level statistics students and is also a comprehensive resource for theoreticians, practitioners, and researchers in the social and physical sciences who would like to extend their knowledge of the EM algorithm.},
+author = {Mclachlan, Geoffrey J and Krishnan, Thriyambakam},
+doi = {10.1002/9780470191613},
+isbn = {9780471201700},
+title = {{The EM Algorithm and Extensions Second Edition}},
+year = {2008}
+}
+
+@article{bilmes1998gentle,
+  title={A gentle tutorial of the EM algorithm and its application to parameter estimation for Gaussian mixture and hidden Markov models},
+  author={Bilmes, Jeff A and others},
+  journal={International Computer Science Institute},
+  volume={4},
+  number={510},
+  pages={126},
+  year={1998}
+}
+
+@article{schafer2002missing,
+  title={Missing data: our view of the state of the art.},
+  author={Schafer, Joseph L and Graham, John W},
+  journal={Psychological methods},
+  volume={7},
+  number={2},
+  pages={147},
+  year={2002},
+  publisher={American Psychological Association}
+}
