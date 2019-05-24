@@ -1,0 +1,5 @@
+## Interpredictability of dataset
+
+Definition of how every pair of variables can predict each other. Take example from Iris dataset
+
+## Literature review of information theory for our method
