@@ -8,7 +8,9 @@ is the damage suffered by the data in a process
 
 it deppends on the shape of the data, sqared datasets are more likely to die
 
-## nadraya watson and distance prediction
+
+## Watson-Nadaraya estimation and distance prediction
+
 
 The Nadaraya Watson Estimator is one of the most powerful regression tools. It aims to compute the conditional mean of a conjoint density kernel estimation. Generally, it can be named Nonparemetric Kernel Regression or Parzen Window Method and presented by this formula:
 
@@ -26,6 +28,30 @@ $$ \widehat{h}(x) = \sum\limits_{i = 1}^n w_iy_i$$
 
 when $w_i = \frac{exp\left( - \frac{\|x_i - x\|}{b}\right)}{\sum\limits_{j = 1}^n exp\left( - \frac{\|x_j - x\|}{b}\right)}$
 
+Intuitively, the $w_i$ weights can be understod as scaled similarities. It means, given a new observation $x^*$ it's predicted value $x^*$ is calculated as a weighted average of the observed values of the variable response $ \sum_{i = 1}^n w_iy_i$. This weights sums one and reach higher values on observations $x_i$ closer to $x^*$. 
+
+That distance based approach agrees with the distance based definition of function continuity. This is, a function $f: \mathbb{R}^m \mapsto \mathbb{R}^n$ is a continuous function if the distance between $f(x_1)$ and $f(x_2)$ decreases to 0 when the distance between $x_1$ and $x_2$ decreases to 0. So, when $f(x_2)$ is not known it can be appriximated by values of $f(x_1)$ for values of $x_1$ close to $x_2$ (or, in the wieghted average case, giving them high weights).
+
+So, it's theoretically possible have a distance based approach to the prediction problem, and the Nadaraya-Watson estimation process is an excellent example of this. By mean this intuitive argumentation one can see the architecture of distance distance prediction. It can be summarized like
+
+ - Scale the data. Because distances and similarities can be affected by different variable scales.
+ - Calculate the distance between the new observation and all sample observations. 
+ - Using a decreasing function transform the distance measure in a similatiry measure. Or, if possible, calculate a similarity measure between the new observation and all sample observations.
+ - There is an hyper parameter called bandwidth which the distance is divided by. It has been studied yet and a large ammount of literature about it is provided. One can set this hyperparameter at one (1) by doing nothing to the similarity matrix although this behavior is discouraged because increases it can increase the overfitting or bias of the prediction.
+ - Scaling the similarities to sum one will product the data weights. So, there is one weight for each pair of new-old observations, and the seights corresponding at a new observation must be all positive and sum one.
+ - For each new observation compute the weighted average of the response ariable using its weights. This weighted average will be the prediction at this point.
+
+Seeing the architecture and forgetting the details for a moment it's possible imagine it as a set of modules and change some of them. Some questions will be, 
+
+ - What is the best way of scale the data in order to have better (most representative) distances?
+ - What about use some disctinct distance function?
+ - What about use some disctinct decreasing function?
+ - What about use some non-distance-based similarity?
+ - What about bandwith calculation for each variable (local bandwith)?
+ - Is there a way to give some relevancy to the variables in distance calculation?
+ - And so on...
+
+In conclusion, here is a complete framework of distance based prediction. There are some procedures like parzen window, k nearest neighbors, hot deck, and many others, which are different approaches and implementations of this one paradigm. This paper aims combine the distance based prediction paradign with the EM algorithm in order to managing missing values.
 
 ## EM algorithm
 
@@ -35,7 +61,7 @@ On the expectation step, having some values for the parameters in the model the 
 
 ## Data damage 
 
-In the imputation data context it's necessary to talk about the nature and amount of missing information. In this analysis some concepts like missing at random and missing completely at random show up, concepts that care about of the distribution of the damage from the data. But in the consulted papers were not deeper analysis of this damage. There are no standardized measures for this data damage or further descriptions  easy/difficult imputation. It means that its not able damage different data sets in the same way, or damage them in the same amount, for test imputation data algorithms.
+In the imputation data context it's necessary to talk about the nature and amount of missing information. In this analysis some concepts like _missing at random_ and _missing completely at random_ show up, concepts that care about of the distribution of the damage from the data. But in the consulted papers were not deeper analysis of this damage. There are no standardized measures for this data damage or further descriptions  easy/difficult imputation. It means that its not able damage different data sets in the same way, or damage them in the same amount, for test imputation data algorithms.
 
 Traditional approach for this problem is measure the data damage by the percent of missing values on a table. But this approach ignores the shape of the table, which will be relevant aspect show it in Figure 1.
 
