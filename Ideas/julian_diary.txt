@@ -78,6 +78,10 @@ How can we Define and design with this measure. For this is necessary to status 
  - Two data tables with same values of this measure should have the same proportion of fulfilled individuals.
  - Two samples of the same datatable the same data damage imputed with the same imputation methods should have this same imputation performance.
 
+The individual distribution of the count of missings in the missing complete at random (MCAR) case is binomial. When the misings are randomly located in table, each cell has a non-zero probability of have a missing value, setting a bernoully scenary. The individual count of missing values is, in fact, a sum of Bernoully distributed random variables, so it is a binomial deistributed count whose parameters are the number of colums of table $k$ and the probability of have a missing $p$. The estimation of theese parameters is not difficult, the first parameter $k$ needs no estimation and having $n$ individuals and $m$ missings $\widehat{p} = \frac{m}{nk}$. The espected value of this binomial distribution will be $kp$ whose estimation is $\frac{m}{n}$. 
+
+Having this in consideration we now discuss if this binomial distribution or its expectation satisfies the previous requirement statements in order to propose meassure the data damage by means this parameters and expectation.
+
 ## Data resilience
 
 Data resilience is the property of data sets. Let's say the A data set is more resilient than other data set B, if after make them the same amount of damage in the same way, A can be recovered better than B using the same method of data imputation.
