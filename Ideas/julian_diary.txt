@@ -65,7 +65,22 @@ In the imputation data context it's necessary to talk about the nature and amoun
 
 Traditional approach for this problem is measure the data damage by the percent of missing values on a table. But this approach ignores the shape of the table, which will be relevant aspect show it in Figure 1.
 
-The shape of the table is indeed relevant. Long vertical table will produce more complete individuals than squared shaped table or fat horizontal table. This is important because every prediction algorithm is based (and improved) on complete cases. Intuitively, if every individual is missing out a few values, the task of imputation is harder.
+The shape of the table is indeed relevant. Long vertical table will produce more fulfilled individuals than squared shaped table or fat horizontal table. This is important because every prediction algorithm is based (and improved) on complete cases. Intuitively, if every individual is missing out a few values, the task of imputation is harder.
+
+In conclusion, the damage has different ways of perfect the data depending not only on its distribution but also on the firm of the table and other factors. Now, intiutively, samples of the same size of the same data table having the same missing values in the same spots predicted and filled by the same imputation methods will produce approximately the same level of affordability/confiability/prediction/accuracy. Tis property can be an initalization point for the search of data damage measuring.
+
+It's required to pay attention to some concepts concerning the proportion and the quantity of fulfilled individuals, the shape of the table, the distribution of the missings on the table in order to have a measure that describes the damage weaselly/foley/perfectly/completely. So that, we can have the same amount of damage in different tables in order to evaluate our imputation algorithms
+
+How can we Define and design with this measure. For this is necessary to status of statements that needs to be complete by the proposal measure. These statements are called requirements and determinants of the measure, and they will be:
+
+ - Two data tables with the same size and the same shape having the same missing values in the same spot, independently of the data and the type of data, should have the same values of these measure.
+ - Two tables with with the same size and the same shape  and the same values of this measure should have approximately the same number or fulfilled individuals.
+ - Two data tables with same values of this measure should have the same proportion of fulfilled individuals.
+ - Two samples of the same datatable the same data damage imputed with the same imputation methods should have this same imputation performance.
+
+The individual distribution of the count of missings in the missing complete at random (MCAR) case is binomial. When the misings are randomly located in table, each cell has a non-zero probability of have a missing value, setting a bernoully scenary. The individual count of missing values is, in fact, a sum of Bernoully distributed random variables, so it is a binomial deistributed count whose parameters are the number of colums of table $k$ and the probability of have a missing $p$. The estimation of theese parameters is not difficult, the first parameter $k$ needs no estimation and having $n$ individuals and $m$ missings $\widehat{p} = \frac{m}{nk}$. The espected value of this binomial distribution will be $kp$ whose estimation is $\frac{m}{n}$. 
+
+Having this in consideration we now discuss if this binomial distribution or its expectation satisfies the previous requirement statements in order to propose meassure the data damage by means this parameters and expectation.
 
 ## Data resilience
 
