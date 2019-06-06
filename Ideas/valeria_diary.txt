@@ -1,5 +1,44 @@
 ## Interpredictability of dataset
 
-Definition of how every pair of variables can predict each other. Take example from Iris dataset
+Definition of how every pair of variables can predict each other. Take example from Iris dataset.
+The concept of mutual information seems to address exactly this problem. For two variables (discrete or continuous) we have the concept of mutual information coming from the "entropy" behavior occurring in both variables. 
 
 ## Literature review of information theory for our method
+For this part, in 2018-sefidian there is a good overview on the state of art for multiple imputation. There is particularly some revision about multiple imputation based on entropy. Check this to make a state of art writing.
+
+
+\section{Mutual information}
+
+The concept of mutual information can be understood as the interpredictability between two given random variables. In the context of data imputation, such an interpredictability plays the role of measuring how well the values of a variable $X$ can be recovered by the values of another variable $Y$, even if their relationship is not necessarily linear. In this work, we are interested in measuring how much information of $X$ there is in the information of $Y$ by relying on their joint entropy.
+When referring to the statistical dependence or independence of two random variables, the joint entropy measures exactly the statistical dependence occurring between them. This is a very important feature to study and measure when the functional relationship between variables is unknown. The joint entropy of $X$ and $Y$ is given by:
+
+$$H(X,Y) = E[-\log(p(X,Y)]$$ 
+
+Correspondingly, the marginal entropy measures are given by:
+
+$$H(X) = E[-\log(p(X)]; \quad H(Y) = E[-\log(p(Y)]$$ 
+
+so that, the mutual information $MI$ for $X$ and $Y$ is given by:
+
+$$MI(X,Y) = H(X) + H(Y) - H(X,Y) $$
+
+Note that in presence of statistical independence, $MI(X,Y) = 0$. 
+Some of the properties of this measure are that it is non-negative and it is bounded by the individual entropies, i.e., $MI(X,Y)\le \min{H(X), H(Y)}$. As a consequence, if $X$ is a function of $Y$ and viceversa, the mutual information will correspond to the entropy of $X$ (or $Y$).
+
+
+In practical terms, the calculation of $MI(X,Y)$ becomes challenging due to the specification of the joint and marginal probability or density functions. Currently there are several packages in R (one of them \emph{muti} or \emph{entropy}) that rely on discretization of the variables prior to measuring their mutual information by means of the entropy definitions. Other reliable proposals are based on non-parametric estimation of densities to define the distributions based on the data. This, however, is still not widely available in statistical software. 
+
+\section{Multiple imputation based on entropy criteria}
+
+One of the paradigms in imputation methods relies on the variable-wise estimation of the missing values in a data matrix $X$. The concept of entropy has been useful in practice to find variables in $X$ that carry more information about a specific incomplete target variable $X_j$ than others $X_k \quad k\ne j$. This aims to apply regression techniques based on a variable selection strategy. Let us assume that variable $X_j$ is being imputed. First the gain in entropy to predict $X_j$ by the other variables $X_k in X$ is calculated as:
+
+$$ G(X_j,X_k) = H(X_j) - H(X_j | X_k)$$
+
+
+Afterwards, thresholds are normally adopted to make a final selection of predictors $X_k$ for incomplete variable $X_j$. There are some methods that perform the estimation of the missing value directly by calculating a weighted average using the values in  $G(X_j,X_k)$ as sample weights. Procedures that adopt this philosophy are iterative and it is assumed that the previous imputed information counts as complete data points to use it as a possible predictor of another subsequent incomplete $X_k$. 
+
+
+In more recent developments and applications, entropy-based measures for data imputation are used as embedded steps into a larger protocol consisting in clustering techniques to select predictor samples and entropy to select predictor variables. By definition, such strategies require the imputation to be performed per sample and per variable in dataset $X$, which represents a major challenge for the computational cost. However, if the estimations are more accurate, there will be more valuable information to impute the remaining values.   
+
+
+ 
