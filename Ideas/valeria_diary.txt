@@ -38,7 +38,22 @@ $$ G(X_j,X_k) = H(X_j) - H(X_j | X_k)$$
 Afterwards, thresholds are normally adopted to make a final selection of predictors $X_k$ for incomplete variable $X_j$. There are some methods that perform the estimation of the missing value directly by calculating a weighted average using the values in  $G(X_j,X_k)$ as sample weights. Procedures that adopt this philosophy are iterative and it is assumed that the previous imputed information counts as complete data points to use it as a possible predictor of another subsequent incomplete $X_k$. 
 
 
-In more recent developments and applications, entropy-based measures for data imputation are used as embedded steps into a larger protocol consisting in clustering techniques to select predictor samples and entropy to select predictor variables. By definition, such strategies require the imputation to be performed per sample and per variable in dataset $X$, which represents a major challenge for the computational cost. However, if the estimations are more accurate, there will be more valuable information to impute the remaining values.   
+In more recent developments and applications, entropy-based measures for data imputation are used as embedded steps into a larger protocol consisting in clustering techniques to select predictor samples and entropy to select predictor variables. By definition, such strategies require the imputation to be performed per sample and per variable in dataset $X$, which represents a major challenge for the computational cost. However, if the estimations are more accurate, there will be more valuable information to impute the remaining values. 
+
+
+### Data damage
+
+What are the requirements or features that a measure of data damage should have?
+
+## Tasks
+
+Llegar a la definicion de nuestro metodo por medio de las ideas de teoria de la informacion.
+general multivariate mutual information, matriz de mutual information, que tan autopreditible es el dataset
+si tenemos dos muestras de un big data set, ambos deberían tener la misma interpredictibilidad
+
+## diseñar, el paradigma del diseno
+pensar antes de hacer.
+  
 
 
  
